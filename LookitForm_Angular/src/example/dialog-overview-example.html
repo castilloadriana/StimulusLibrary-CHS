@@ -1,0 +1,23 @@
+<ol>
+  <li>
+    <button mat-raised-button (click)="openDialog()">Pick one</button>
+  </li>
+
+  @if (pi_name() && inst_name()) {
+  <li>
+    You chose:
+    <br />
+    <em>{{pi_name()}}</em>
+    <br />
+    <em>{{inst_name()}}</em>
+    <br />
+    {{study_sections.value | json}}
+
+
+  </li>
+  }
+</ol>
+
+<!-- Copyright 2025 Google LLC. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at https://angular.io/license -->

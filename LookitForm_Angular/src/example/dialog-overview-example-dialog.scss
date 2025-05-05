@@ -1,0 +1,28 @@
+@use '@angular/material' as mat;
+
+.example-h2 {
+  //margin: 10px;
+}
+
+.example-section {
+  // display: flex;
+  // align-content: center;
+  // align-items: center;
+  // height: 60px;
+}
+
+.example-margin {
+  //margin: 0 2em;
+}
+
+/* 
+Token Usage Example
+
+
+.example-token .mat-mdc-dialog-container {
+  @include mat.dialog-overrides(
+    (
+      container-color: pink,
+    )
+  );
+} */
