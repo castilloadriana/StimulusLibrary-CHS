@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My experiment</title>
+    <script src="https://unpkg.com/jspsych@8.2.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.1.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@2.1.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-preload@2.1.0"></script>
+    <link href="https://unpkg.com/jspsych@8.2.1/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <script src="https://unpkg.com/@jspsych/plugin-video-keyboard-response@2.1.0"></script>
+
+  </head>
+  <body></body>
+  <script>
+
+/* initialize jsPsych */
+var jsPsych = initJsPsych({
+  on_finish: function() {
+    jsPsych.data.displayData();
+  },
+//    extensions: [{ type: chsRecord.TrialRecordExtension }], // commented out for web version!
+});
+
+
+
+var timeline = [];
+
+
+/* Instructions 2 */
+var first_instructions = {
+  type: jsPsychHtmlKeyboardResponse,
+  stimulus: `
+<div style="text-align: center; max-width: 800px; margin: auto;">
+
+    <h1 style="font-size: 2em; color: darkblue;">Study Instructions</h1>
+    <p style="font-size: 1.2em;">Welcome to the study! Please watch this video to get started.<br>(Or you can read the summary below if you prefer.)</p>
+
+    <video controls style="max-width: 100%; border-radius: 10px; margin-top: 10px;">
+        <source src="https://raw.githubusercontent.com/lookit/template-study-stim/master/tetris/mp4/Lookit_Template_First_Instructions.mp4" type="video/mp4">
+    </video>
+
+    <h2 style="margin-top: 20px; color: darkblue;">Video Summary</h2>
+
+    <h3 style="color: darkgreen;">Background Information About the Study</h3>
+    <p>Your baby does not need to be with you at this point in the study. We will let you know when it is time to get your baby.</p>
+    <p>Mental rotation—the ability to manipulate internal representations of objects—is an important spatial ability. It plays a role in understanding objects, reading maps, mathematical reasoning, and navigation. In this study, we are examining whether babies can mentally rotate simple objects.</p>
+
+    <h3 style="color: darkgreen;">Preview of What Your Baby Will See</h3>
+    <p>Your baby will be shown two identical Tetris shapes on the screen—one on the left and one on the right. The shapes will appear and disappear, changing orientation each time. On one side, the rotation will always be possible, while on the other, a mirror image may appear. If babies can mentally rotate objects, they should spend different amounts of time watching these two types of stimuli.</p>
+
+    <h3 style="color: darkgreen;">What's Next?</h3>
+    <p>Because this is an online study, we will first check to make sure your webcam is set up and working properly to record your baby’s looking behavior.</p>
+    <p>Next, you will review the consent information and record a short video of yourself giving consent to participate in the study.</p>
+    <p>After that, we will ask a few questions about your baby's motor abilities.</p>
+    <p>Once you complete the consent process and questions, we will provide more detailed instructions on how to proceed with the study.</p>
+
+</div>
+  `,
+  post_trial_gap: 2000
+};
+
+timeline.push(first_instructions);
+
+
+/* 
+*****
+The code block below is commented out to work on the web because it includes CHS specific plugins 
+*****
+
+const video_config = {type: chsRecord.VideoConfigPlugin};
+timeline.push(video_config);
+
+
+var video_consent = {
+  type: chsRecord.VideoConsentPlugin,
+  PIName: "Jane Smith",
+  institution: "Science University",
+  PIContact: "Jane Smith at 123 456 7890",
+  purpose: "This study is part of a larger research project at the Institute for Template Studies, called ‘The relation between non-spatial skills and mental rotation from infancy to preK.’ The project will help scientists understand how spatial processing develops during childhood, and how that development relates to other areas like social and motor skills. This particular study is about mental rotation, or the ability to imagine how an object looks from different points of view. The results of this study will help determine whether mental rotation is a ‘built-in’ ability that babies have, or something they have to learn to do.",
+  procedures: "First you will review some instructions, get set up for the study, and answer a few questions about your child’s motor development. This questionnaire helps us interpret babies’ behavior in the main task. During the study, your child will sit on your lap or in an appropriate chair if you choose. He or she will participate in a short ‘looking time’ activity. On the screen, there will be Tetris-like blocks that appear and disappear, each time being rotated or flipped over (mirror image). By recording how long your baby looks at each block, we can learn about what information they notice and pay attention to. There are no expected risks from taking part in this study.",
+  payment: "Within about 3 days after participating in this study, we will email you a $7 'Tango card' gift card which you can exchange for credit at a variety of stores. To be eligible for the gift card, your child must be in the age range for this study, you need to submit a valid consent statement, and we need to see that there is a child with you. But we will send a gift card even if you do not finish the whole study or if we are not able to use your child's data. There are no other direct benefits to you or others from taking part in this research.",
+  "datause": "We use a secure, web-based data library called Databrary (databrary.org) to store your data. All data is private so that only members of the research team can access it. But if you agree at the end of the study, the recording of your child’s session may be shared with other researchers on Databrary. Although we designed this session to test specific questions about development in children, other researchers may find information from sessions like these useful for answering other questions. In addition to choosing whether which researchers can access your videos, you will choose a privacy level that says whether researchers can share the videos more broadly, for instance to teach students. Whether to share data is completely up to you!",
+  research_rights_statement: "This research has been reviewed and approved by an Institutional Review Board (“IRB”), a group of people who oversee research involving humans as participants. Information to help you understand research is on-line at https://templatestudiesinstitute.edu/irb. You may talk to a IRB staff member at (123) 456-7890 or IRBAdmin@tsi.edu for any of the following: 1) Your questions, concerns, or complaints are not being answered by the research team; 2) you cannot reach the research team; 3) you want to talk to someone besides the research team; 4) you have questions about your rights as a research subject; 5) you want to get information or provide input about this research.",
+};
+
+timeline.push(video_consent);
+
+survey
+var AIMS_q = {
+  type: chsSurvey.ConsentSurveyPlugin, 
+  survey_json: {
+    showQuestionNumbers: true,
+    questions:
+      [{
+        type: "panel",
+        name: "html-img-panel",
+        description: "This panel contains images and a question.",
+        elements: [
+          {
+            type: "html",
+            name: "html",
+            html: `
+              <div style="text-align: center;">
+                <img src="https://raw.githubusercontent.com/lookit/template-study-stim/master/tetris/img/AIMS1.jpg" width="300">
+                <img src="https://raw.githubusercontent.com/lookit/template-study-stim/master/tetris/img/AIMS2.jpg" width="300">
+              </div>
+            `
+          },
+          {
+            type: "radiogroup",
+            title: "1. In the past week, did your baby sit?", 
+            name: "Q1", 
+            choices: ["No", "Unsure", "Yes"]
+          }
+        ]
+      }, 
+      {
+        type: "panel",
+        name: "html-img-panel",
+        description: "This panel contains images and a question.",
+        elements: [
+          {
+            type: "html",
+            name: "html",
+            html: `
+              <div style="text-align: center;">
+                <img src="https://raw.githubusercontent.com/lookit/template-study-stim/master/tetris/img/AIMS3.jpg" width="300">
+                <img src="https://raw.githubusercontent.com/lookit/template-study-stim/master/tetris/img/AIMS4.jpg" width="300">
+              </div>
+            `
+          },
+          {
+            type: "radiogroup",
+            title: "2. In the past week, did your baby crawl? This could be either on their belly or on their hands and knees.", 
+            name: "Q2", 
+            choices: ["No", "Unsure", "Yes"]
+          }
+        ]
+      },
+
+      {
+        type: "panel",
+        name: "html-img-panel",
+        description: "This panel contains images and a question.",
+        elements: [
+          {
+            type: "html",
+            name: "html",
+            html: `
+              <div style="text-align: center;">
+                <img src="https://raw.githubusercontent.com/lookit/template-study-stim/master/tetris/img/AIMS7.jpg" width="300">
+              </div>
+            `
+          },
+          {
+            type: "radiogroup",
+            title: "3. In the past week, did your baby pull to stand?", 
+            name: "Q3", 
+            choices: ["No", "Unsure", "Yes"]
+          }
+        ]
+      },
+      {
+        type: "panel",
+        name: "html-img-panel",
+        description: "This panel contains images and a question.",
+        elements: [
+          {
+            type: "html",
+            name: "html",
+            html: `
+              <div style="text-align: center;">
+                <img src="https://raw.githubusercontent.com/lookit/template-study-stim/master/tetris/img/AIMS8.jpg" width="300"> 
+              </div>
+            `
+          },
+          {
+            type: "radiogroup",
+            title: "4. In the past week, did your baby walk independently?", 
+            name: "Q4", 
+            choices: ["No", "Unsure", "Yes"]
+          }
+        ]
+      }
+    ]
+  }, 
+  post_trial_gap: 2000
+};
+timeline.push(AIMS_q);
+*/
+
+/* Instructions 2 */
+var second_instructions = {
+  type: jsPsychHtmlKeyboardResponse, 
+  stimulus: `
+<div style="text-align: center; max-width: 800px; margin: auto;">
+  
+    <h1 style="font-size: 2em; color: darkgreen;">Study Instructions</h1>
+    <p style="font-size: 1.2em;">Welcome to the study! Please watch this video to get started. <br> (Or you can read the summary below if you prefer.)</p>
+
+    <video controls style="max-width: 100%; border-radius: 10px; margin-top: 10px;">
+        <source src="https://raw.githubusercontent.com/lookit/template-study-stim/master/tetris/mp4/Lookit_Template_Second_Instructions.mp4" type="video/mp4">
+    </video>
+
+    <h2 style="margin-top: 20px;">Video Summary</h2>
+
+    <h3 style="color: darkgreen;">What to do during the study:</h3>
+    <p>If your child gets fussy or distracted, you can pause by pressing the spacebar.</p>
+    <p>If your baby becomes too fussy, you can discontinue the study at any time by turning them away from the screen.</p>
+    <p>To end the study early, press Ctrl+X or F1 and select “exit.” Your data is still valuable even if you don’t finish.</p>
+
+    <h3 style="color: darkgreen;">Your role during the study:</h3>
+    <p>Hold your baby in your lap, facing the screen. Even brief engagement provides useful data.</p>
+
+    <h3 style="color: darkgreen;">Please close your eyes during the study</h3>
+    <p>To avoid influencing your baby’s responses, keep your eyes closed throughout the study. An audio cue will let you know when it’s over.</p>
+
+    <h3 style="color: darkgreen;">After the study:</h3>
+    <p>You'll have the opportunity to report technical issues and select a privacy level for your video.</p>
+
+</div>
+
+  `,
+  post_trial_gap: 2000
+};
+timeline.push(second_instructions);
+  
+/* 
+*****
+  The code block below is commented out to work on the web because it includes CHS specific plugins 
+*****
+  // record trials plugins
+  const startRec = { type: chsRecord.StartRecordPlugin };
+  const stopRec = { type: chsRecord.StopRecordPlugin };
+*/
+
+
+/* 
+  Structure: Each section of a frame is pushed individually
+  Notes:
+    - Calibrations are being simulated with a video, plug in not implemented yet
+
+*/
+
+/* define array of timeline variables, one object for each */
+var intro = { //change to htnmlvideo response, also add stimulus instead of video and audio 
+  type: jsPsychVideoKeyboardResponse, //translated from exp-lookit-video
+  stimulus: ["https://raw.githubusercontent.com/lookit/template-study-stim/master/tetris/mp4/Elmo.mp4", "https://raw.githubusercontent.com/lookit/template-study-stim/master/tetris/mp3/video_01.mp3"],
+  trial_duration:2000
+};
+timeline.push(intro);
+
+var calibration = {
+  type: jsPsychVideoKeyboardResponse, //calibration plugin doesn't seem to exist in jsPsych, only lookit EFP. Talk to Becky for info
+  stimulus: ["https://raw.githubusercontent.com/lookit/template-study-stim/master/tetris/mp4/B%20Continuous.mp4" ],
+  trial_duration:2000
+};
+timeline.push(calibration);
+
+var content = {
+  type: jsPsychVideoKeyboardResponse,
+  stimulus: ["https://raw.githubusercontent.com/lookit/template-study-stim/master/tetris/mp4/B%20Continuous.mp4"],
+  required_duration: 2000
+};
+timeline.push(content);
+
+/* Trial Procedure not used in this case because we are hard coding the videos*/
+
+// var trial_procedure = {
+//   timeline: [
+//     intro, 
+//     pre_recording_message,
+//     startRec, //commented out for web version!
+//     calibration_node, 
+//     content, 
+//     stopRec,  //commented out for web version!
+//   ],
+//   timeline_variables: test_trial_properties,
+// };
+// timeline.push(trial_procedure);
+
+
+var debrief_block = {
+  type: jsPsychHtmlKeyboardResponse,
+  stimulus: `
+  <div style="text-align: center; max-width: 800px; margin: auto;">
+
+    <h1 style="font-size: 2em; color: darkblue;">Interested in Learning More?</h1>
+    <p style="font-size: 1.2em;">You're all done! You can watch the video below (or read the summary below) to learn more about what this study was about.</p>
+
+    <video controls style="max-width: 100%; border-radius: 10px; margin-top: 10px;">
+        <source src="https://raw.githubusercontent.com/lookit/template-study-stim/master/tetris/mp4/Lookit_Template_Study_Debriefing.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <h2 style="margin-top: 20px; color: darkblue;">Video Summary</h2>
+
+    <h3 style="color: darkgreen;">Thank You So Much! Your Baby is Perfect.</h3>
+    <p>We know that sometimes babies are fascinated by these videos, and sometimes they’re not interested at all. No matter <strong>what</strong> your baby was doing, it was the right thing—they're learning about the world, and watching them lets <strong>us</strong> learn how they do that.</p>
+
+    <h3 style="color: darkgreen;">What Was Happening in the Study?</h3>
+    <p>Now that we’ve measured where your baby was looking, here’s a bit more about the design of the study:</p>
+    <p>During each video, a Tetris-like shape appeared on both the left and right sides of the screen. On one side, the shape simply rotated. On the other, it sometimes flipped over as well. These two transformations—just rotating vs. rotating with flipping—allowed us to study how babies perceive and process these changes.</p>
+
+    <h3 style="color: darkgreen;">Study Design</h3>
+    <p>Previous studies have shown that babies often prefer looking at the side where more changes are happening. Researchers ensure the changing side alternates between left and right to prevent bias.</p>
+    <p>The key question here is: Do babies notice when the shape flips over? If they do, it suggests that they recognize rotated versions of the same shape as similar. This doesn’t necessarily mean they can fully imagine rotation, but it shows early spatial recognition skills.</p>
+
+    <h3 style="color: darkgreen;">Why Does This Matter?</h3>
+    <p>Mental rotation isn’t just useful for reading maps or solving puzzles—it’s essential for recognizing objects from different angles. For example, a bottle looks very different to a baby when it’s in their hands, on the counter, or inside a bag.</p>
+    <p>Babies will eventually learn mental rotation, but researchers don’t yet know <strong>when</strong> they begin to develop this ability. Do young infants already have this skill, or do they need experience handling objects to learn it?</p>
+    <p>By studying when babies show a preference in tasks like this, we gain insights into both when mental rotation develops and how learning mechanisms shape this ability.</p>
+
+    <h3 style="color: darkgreen;">Final Thoughts</h3>
+    <p>Your baby is amazing—not just for the reasons you already know, but also because they may already have the ability to mentally rotate objects! (Or because they’re learning to.)</p>
+    <p>We hope this study has sparked curiosity about what’s going on in your baby’s mind. Thank you again, and have a wonderful day!</p>
+
+</div>
+`
+
+  };
+  timeline.push(debrief_block);
+
+
+var myexitsurvey= {
+  type: jsPsychHtmlKeyboardResponse,
+  stimulus: `<div style="text-align: center; max-width: 800px; margin: auto;">
+
+    <h1 style="font-size: 2em; color: darkblue;">Interested in Learning More?</h1>
+    <p style="font-size: 1.2em;">You're all done! You can watch the video below (or read the summary below) to learn more about what this study was about.</p>
+
+    <video controls style="max-width: 100%; border-radius: 10px; margin-top: 10px;">
+        <source src="https://raw.githubusercontent.com/lookit/template-study-stim/master/tetris/mp4/Lookit_Template_Study_Debriefing.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <h2 style="margin-top: 20px; color: darkblue;">Video Summary</h2>
+
+    <h3 style="color: darkgreen;">Thank You So Much! Your Baby is Perfect.</h3>
+    <p>We know that sometimes babies are fascinated by these videos, and sometimes they’re not interested at all. No matter <strong>what</strong> your baby was doing, it was the right thing—they're learning about the world, and watching them lets <strong>us</strong> learn how they do that.</p>
+
+    <h3 style="color: darkgreen;">What Was Happening in the Study?</h3>
+    <p>Now that we’ve measured where your baby was looking, here’s a bit more about the design of the study:</p>
+    <p>During each video, a Tetris-like shape appeared on both the left and right sides of the screen. On one side, the shape simply rotated. On the other, it sometimes flipped over as well. These two transformations—just rotating vs. rotating with flipping—allowed us to study how babies perceive and process these changes.</p>
+
+    <h3 style="color: darkgreen;">Study Design</h3>
+    <p>Previous studies have shown that babies often prefer looking at the side where more changes are happening. Researchers ensure the changing side alternates between left and right to prevent bias.</p>
+    <p>The key question here is: Do babies notice when the shape flips over? If they do, it suggests that they recognize rotated versions of the same shape as similar. This doesn’t necessarily mean they can fully imagine rotation, but it shows early spatial recognition skills.</p>
+
+    <h3 style="color: darkgreen;">Why Does This Matter?</h3>
+    <p>Mental rotation isn’t just useful for reading maps or solving puzzles—it’s essential for recognizing objects from different angles. For example, a bottle looks very different to a baby when it’s in their hands, on the counter, or inside a bag.</p>
+    <p>Babies will eventually learn mental rotation, but researchers don’t yet know <strong>when</strong> they begin to develop this ability. Do young infants already have this skill, or do they need experience handling objects to learn it?</p>
+    <p>By studying when babies show a preference in tasks like this, we gain insights into both when mental rotation develops and how learning mechanisms shape this ability.</p>
+
+    <h3 style="color: darkgreen;">Final Thoughts</h3>
+    <p>Your baby is amazing—not just for the reasons you already know, but also because they may already have the ability to mentally rotate objects! (Or because they’re learning to.)</p>
+    <p>We hope this study has sparked curiosity about what’s going on in your baby’s mind. Thank you again, and have a wonderful day!</p>
+
+</div> `}
+  timeline.push(myexitsurvey);
+
+
+
+jsPsych.run(timeline);
+
+
+  </script>
+</html>
